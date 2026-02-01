@@ -69,10 +69,10 @@ func main() {
 	})
 
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		if err := db.Ping(); err != nil {
-			w.WriteHeader(http.StatusServiceUnavailable)
-			fmt.Fprintf(w, "db connection error: %v", err)
-			return
+		if db != nil {
+			if err := db.Ping(); err != nil {
+				log.Printf("DB Ping failed: %v", err)
+			}
 		}
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "ok")

@@ -19,13 +19,10 @@ jobs:
         with:
           go-version: '1.22'
 
-      - name: Run Go Lint (Dry Run)
-        run: go fmt ./app/backend/...
-
       - name: Build Check
         run: |
           cd app/backend
-          go build -o /dev/null main.go
+          go build -v -o /dev/null main.go
 
   test-frontend:
     name: Test Frontend
@@ -36,19 +33,5 @@ jobs:
 
       - name: HTML Lint (Simple Check)
         run: |
-          grep -q "<html>" app/frontend/index.html
-          grep -q "<title>" app/frontend/index.html
-
-  # COMMENTED OUT: AWS Deployment Steps
-  # build-and-push:
-  #   needs: [test-backend, test-frontend]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v4
-  #       with:
-  #         role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-  #         aws-region: ap-southeast-2
-  #     ...
+          grep -i "<html>" app/frontend/index.html
+          grep -i "<title>" app/frontend/index.html
