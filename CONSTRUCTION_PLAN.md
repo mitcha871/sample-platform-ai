@@ -54,12 +54,12 @@ This document outlines the milestones and sequence for building the platform. Ea
     *   Configure GitHub Actions workflows.
 *   **Status:** COMPLETED.
 
-### 📋 Milestone 8: The Application
+### ✅ Milestone 8: The Application
 *   **Goal:** Deploy the actual software.
 *   **Tasks:** 
     *   Build/Deploy Go Backend.
     *   Build/Deploy Next.js Frontend (S3/CloudFront).
-*   **Status:** PENDING.
+*   **Status:** COMPLETED.
 
 ### 📋 Milestone 9: Observability
 *   **Goal:** "Eyes on" the system.
