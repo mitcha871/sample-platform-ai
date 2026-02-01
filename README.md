@@ -31,6 +31,7 @@ To balance cost, learning, and reliability, we use a tiered approach for our env
 *   **Global Traffic:** Route 53 Latency-based routing to direct Sydney/Melbourne users to the nearest healthy region.
 *   **Security:** 
     *   **AWS Client VPN** for internal access to management tools.
+    *   **IAM Roles for Service Accounts (IRSA)** for Zero-Trust database access.
     *   **AWS Secrets Manager** for sensitive credentials (no plain-text secrets).
     *   **IAM OIDC** for secure GitHub Actions integration.
 

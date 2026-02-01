@@ -20,6 +20,7 @@ This document outlines the milestones and sequence for building the platform. Ea
 *   **Goal:** Establish secure access patterns.
 *   **Tasks:** 
     *   Set up GitHub Actions OIDC roles (Zero-Trust CI/CD).
+    *   Implement **IAM Roles for Service Accounts (IRSA)** for database connectivity.
     *   Initialize AWS Secrets Manager for the app.
 *   **Status:** COMPLETED.
 
