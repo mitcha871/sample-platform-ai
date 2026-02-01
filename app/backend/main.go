@@ -33,7 +33,7 @@ func main() {
 	region := os.Getenv("AWS_REGION")
 
 	var password string
-	var err error
+	sslMode := "require" // Default to secure for RDS
 
 	// Use IAM authentication if DB_IAM_AUTH is set to "true"
 	if os.Getenv("DB_IAM_AUTH") == "true" {
@@ -57,21 +57,26 @@ func main() {
 	} else {
 		log.Println("Using static password authentication for database...")
 		password = os.Getenv("DB_PASSWORD")
+		// Disable SSL for local dev if not explicitly requested
+		if os.Getenv("DB_SSL_DISABLE") == "true" {
+			sslMode = "disable"
+		}
 	}
 
-	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=require",
-		dbHost, dbPort, dbUser, password, dbName)
+	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
+		dbHost, dbPort, dbUser, password, dbName, sslMode)
 
+	var err error
 	db, err = sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
 
-	// Initialize table and row (Note: In IAM mode, the user must have CREATE permissions)
+	// Initialize table and row
 	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS site_stats (id serial PRIMARY KEY, views integer)`)
 	if err != nil {
-		log.Printf("Note: Table check/creation skipped or failed (common if IAM user has limited perms): %v", err)
+		log.Printf("Note: Table check/creation skipped or failed: %v", err)
 	}
 
 	_, err = db.Exec(`INSERT INTO site_stats (id, views) SELECT 1, 0 WHERE NOT EXISTS (SELECT 1 FROM site_stats WHERE id = 1)`)
