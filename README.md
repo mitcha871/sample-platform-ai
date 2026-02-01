@@ -16,7 +16,10 @@ The goal of this project is to build a "gold standard" reference architecture fo
 ### 2. Infrastructure & Networking
 *   **IaC:** Provisioned entirely via **OpenTofu**.
 *   **Environment Isolation:** Three distinct environments (`dev`, `uat`, `prod`) isolated at the VPC level.
-    *   **VPC Design:** Multi-AZ (3 AZs) with Public subnets for Load Balancers and Private subnets for compute/data.
+*   **High Availability:** Multi-region deployment (`ap-southeast-2` and `ap-southeast-4`) to survive regional outages.
+    *   **VPC Design:** 2 Availability Zones per region.
+    *   **Data Replication:** Aurora Global Database for cross-region PostgreSQL replication; S3 Cross-Region Replication for static assets.
+    *   **Traffic Management:** Route 53 Failover routing with health checks for automated regional failover.
     *   **Connectivity:** **AWS Client VPN** for secure, internal-only access to management interfaces (ArgoCD, Grafana).
 *   **IAM:** Role-based access control (RBAC) with environment-specific permissions and GitHub OIDC integration.
 
