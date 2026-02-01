@@ -14,8 +14,7 @@ This document outlines the milestones and sequence for building the platform. Ea
 *   **Tasks:** 
     *   Build a reusable OpenTofu module for VPCs.
     *   Deploy the `dev` environment VPC in `ap-southeast-2`.
-    *   Deploy `uat` and `prod` networks in both `ap-southeast-2` and `ap-southeast-4`.
-*   **Status:** PENDING.
+*   **Status:** IN_PROGRESS (Module and Dev config created).
 
 ### 📋 Milestone 3: Identity & Security
 *   **Goal:** Establish secure access patterns.
