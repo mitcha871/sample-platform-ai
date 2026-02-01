@@ -3,58 +3,58 @@
 A showcase of a modern, cloud-native enterprise platform.
 
 ## Goal
-The goal of this project is to build a "gold standard" reference architecture for a distributed web application. It demonstrates how to scale both technology and teams by implementing strict environment isolation, automated GitOps workflows, and robust observability.
+The goal of this project is to build a "gold standard" reference architecture for a distributed web application. It demonstrates how to scale both technology and teams by implementing strict environment isolation, automated GitOps workflows, and multi-region high availability.
 
-## Architecture Overview
+## Architecture Strategy: Environment Tiers
+
+To balance cost, learning, and reliability, we use a tiered approach for our environments:
+
+| Feature | Dev (Sandbox) | UAT (Mirror) | Prod (Live) |
+| :--- | :--- | :--- | :--- |
+| **Regions** | 1 (ap-southeast-2) | 2 (ap-southeast-2/4) | 2 (ap-southeast-2/4) |
+| **Availability** | Single AZ | Regional Failover | Regional + AZ Failover |
+| **Database** | Single Instance RDS | Global Aurora (Small) | Global Aurora (Large) |
+| **CI/CD** | Auto-deploy on merge | Manual Trigger | Gated Manual Approval |
+| **Routing** | Simple DNS | Latency-based | Latency + Health Checks |
+
+## Core Pillars
 
 ### 1. Application Stack
-*   **Frontend:** Modern JS Framework (Next.js/React) hosted on S3 with CloudFront distribution.
-*   **Backend:** High-performance Go services (REST/gRPC).
-*   **Database:** PostgreSQL (AWS RDS) located in private subnets.
-*   **Containerization:** Dockerized services running on Amazon EKS (Kubernetes).
+*   **Frontend:** Next.js/React hosted on S3 + CloudFront.
+*   **Backend:** Go (REST/gRPC) containerized with Docker.
+*   **Database:** PostgreSQL via Amazon Aurora Global Database for cross-region replication.
+*   **Orchestration:** Amazon EKS (Kubernetes) with worker nodes in private subnets.
 
 ### 2. Infrastructure & Networking
-*   **IaC:** Provisioned entirely via **OpenTofu**.
-*   **Environment Isolation:** Three distinct environments (`dev`, `uat`, `prod`) isolated at the VPC level.
-*   **High Availability:** Multi-region deployment (`ap-southeast-2` and `ap-southeast-4`) to survive regional outages.
-    *   **VPC Design:** 2 Availability Zones per region.
-    *   **Data Replication:** Aurora Global Database for cross-region PostgreSQL replication; S3 Cross-Region Replication for static assets.
-    *   **Traffic Management:** Route 53 Failover routing with health checks for automated regional failover.
-    *   **Connectivity:** **AWS Client VPN** for secure, internal-only access to management interfaces (ArgoCD, Grafana).
-*   **IAM:** Role-based access control (RBAC) with environment-specific permissions and GitHub OIDC integration.
+*   **IaC:** Provisioned via **OpenTofu** with a `bootstrap` layer for state management.
+*   **Networking:** Isolated VPCs per environment.
+*   **Global Traffic:** Route 53 Latency-based routing to direct Sydney/Melbourne users to the nearest healthy region.
+*   **Security:** 
+    *   **AWS Client VPN** for internal access to management tools.
+    *   **AWS Secrets Manager** for sensitive credentials (no plain-text secrets).
+    *   **IAM OIDC** for secure GitHub Actions integration.
 
 ### 3. Deployment & GitOps
-*   **CI (GitHub Actions):** 
-    *   Automated testing and linting.
-    *   Container image builds pushed to Amazon ECR.
-*   **CD (ArgoCD):** 
-    *   **GitOps Pattern:** Using the App-of-Apps pattern.
-    *   **Cadence:** 
-        *   `dev`: Automatic sync on merge.
-        *   `uat`: Tag-based promotion.
-        *   `prod`: Gated manual approval.
-
-### 4. Observability
-*   **Metrics:** Prometheus & Grafana.
-*   **Logging:** Loki (storing logs in S3).
-*   **Security:** Internal-only Grafana dashboards accessed via VPN.
+*   **Container Registry:** Amazon ECR with cross-region image replication.
+*   **CD (ArgoCD):** Implements the GitOps pattern using the App-of-Apps structure.
+*   **Observability:** 
+    *   **Prometheus & Grafana:** Metrics (internal access only).
+    *   **Loki:** Centralized logging with S3 persistence.
 
 ---
 
 ## Directory Structure
 ```text
 /sample-platform-ai
-├── /infra                # OpenTofu Infrastructure as Code
-│   ├── /modules          # Reusable modules (VPC, EKS, RDS, VPN)
-│   └── /environments     # Environment-specific state
-│       ├── /dev
-│       ├── /uat
-│       └── /prod
+├── /bootstrap            # Initial S3/DynamoDB for Tofu state
+├── /infra                # OpenTofu Infrastructure
+│   ├── /modules          # Reusable modules (VPC, EKS, Aurora, VPN)
+│   └── /environments     # Live state (dev, uat, prod)
 ├── /app                  # Application Source Code
 │   ├── /backend          # Go Backend
 │   └── /frontend         # JS Frontend
-├── /gitops               # Kubernetes Manifests
-│   ├── /base             # Shared resources
-│   └── /overlays         # Environment-specific patches
+├── /gitops               # Kubernetes Manifests (ArgoCD)
+│   ├── /base             # Standard resources
+│   └── /overlays         # Env patches (replicas, ingress)
 └── .github/workflows     # CI/CD Pipelines
 ```
