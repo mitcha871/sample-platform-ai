@@ -25,12 +25,12 @@ This document outlines the milestones and sequence for building the platform. Ea
 
 ## Phase 2: The Platform (Compute & Data)
 
-### 📋 Milestone 4: The Database (Aurora)
+### ✅ Milestone 4: The Database (Aurora)
 *   **Goal:** Regional and Cross-Region data persistence.
 *   **Tasks:** 
     *   Deploy Aurora PostgreSQL (Single-instance for Dev).
     *   Deploy Aurora Global Database for UAT/Prod (Sydney/Melbourne replication).
-*   **Status:** PENDING.
+*   **Status:** COMPLETED.
 
 ### 📋 Milestone 5: The Cluster (EKS)
 *   **Goal:** Production-grade Kubernetes orchestration.
