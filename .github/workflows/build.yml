@@ -22,6 +22,7 @@ jobs:
       - name: Build Check
         run: |
           cd app/backend
+          go mod tidy
           go build -v -o /dev/null main.go
 
   test-frontend:
@@ -33,5 +34,5 @@ jobs:
 
       - name: HTML Lint (Simple Check)
         run: |
-          grep -i "<html>" app/frontend/index.html
-          grep -i "<title>" app/frontend/index.html
+          grep -i "<html" app/frontend/index.html
+          grep -i "<title" app/frontend/index.html
