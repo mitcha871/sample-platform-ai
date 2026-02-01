@@ -16,12 +16,12 @@ This document outlines the milestones and sequence for building the platform. Ea
     *   Deploy the `dev` environment VPC in `ap-southeast-2`.
 *   **Status:** IN_PROGRESS (Module and Dev config created).
 
-### 📋 Milestone 3: Identity & Security
+### ✅ Milestone 3: Identity & Security
 *   **Goal:** Establish secure access patterns.
 *   **Tasks:** 
     *   Set up GitHub Actions OIDC roles (Zero-Trust CI/CD).
     *   Initialize AWS Secrets Manager for the app.
-*   **Status:** PENDING.
+*   **Status:** COMPLETED.
 
 ## Phase 2: The Platform (Compute & Data)
 
