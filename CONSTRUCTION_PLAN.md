@@ -61,9 +61,9 @@ This document outlines the milestones and sequence for building the platform. Ea
     *   Build/Deploy Next.js Frontend (S3/CloudFront).
 *   **Status:** COMPLETED.
 
-### 📋 Milestone 9: Observability
+### ✅ Milestone 9: Observability
 *   **Goal:** "Eyes on" the system.
 *   **Tasks:** 
     *   Deploy Prometheus/Grafana/Loki.
     *   Configure S3 log shipping for Loki.
-*   **Status:** PENDING.
+*   **Status:** COMPLETED.
