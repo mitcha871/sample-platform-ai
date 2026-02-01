@@ -9,12 +9,12 @@ This document outlines the milestones and sequence for building the platform. Ea
 *   **Tasks:** Create S3 bucket for state and DynamoDB for locking.
 *   **Status:** COMPLETED.
 
-### 🏗️ Milestone 2: Networking (VPC)
+### ✅ Milestone 2: Networking (VPC)
 *   **Goal:** Create isolated, multi-AZ networking for each environment.
 *   **Tasks:** 
     *   Build a reusable OpenTofu module for VPCs.
-    *   Deploy the `dev` environment VPC in `ap-southeast-2`.
-*   **Status:** IN_PROGRESS (Module and Dev config created).
+    *   Deploy the `dev`, `uat`, and `prod` environment VPCs in `ap-southeast-2`.
+*   **Status:** COMPLETED.
 
 ### ✅ Milestone 3: Identity & Security
 *   **Goal:** Establish secure access patterns.
