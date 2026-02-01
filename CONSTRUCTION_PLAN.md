@@ -39,10 +39,10 @@ This document outlines the milestones and sequence for building the platform. Ea
     *   Configure Node Groups and OIDC providers for K8s service accounts.
 *   **Status:** COMPLETED.
 
-### 📋 Milestone 6: Connectivity (VPN)
+### ✅ Milestone 6: Connectivity (VPN)
 *   **Goal:** Secure internal-only access.
 *   **Tasks:** Configure AWS Client VPN to allow access to the private subnets.
-*   **Status:** PENDING.
+*   **Status:** COMPLETED.
 
 ## Phase 3: The Developer Experience (DX)
 
