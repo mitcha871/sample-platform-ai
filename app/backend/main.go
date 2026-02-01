@@ -1,10 +1,21 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"sync"
+)
+
+type CounterResponse struct {
+	Count int `json:"count"`
+}
+
+var (
+	count int
+	mu    sync.Mutex
 )
 
 func main() {
@@ -13,8 +24,16 @@ func main() {
 		port = "8080"
 	}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello from the Sample Platform AI Backend!")
+	// Simple Counter Endpoint
+	http.HandleFunc("/api/count", func(w http.ResponseWriter, r *http.Request) {
+		mu.Lock()
+		count++
+		current := count
+		mu.Unlock()
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Access-Control-Allow-Origin", "*") // Enable CORS for the frontend
+		json.NewEncoder(w).Encode(CounterResponse{Count: current})
 	})
 
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {

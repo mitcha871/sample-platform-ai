@@ -59,6 +59,7 @@ This document outlines the milestones and sequence for building the platform. Ea
 *   **Tasks:** 
     *   Build/Deploy Go Backend.
     *   Build/Deploy Next.js Frontend (S3/CloudFront).
+    *   **New:** Implement View Counter logic (Backend) and Refresh UI (Frontend).
 *   **Status:** COMPLETED.
 
 ### ✅ Milestone 9: Observability
