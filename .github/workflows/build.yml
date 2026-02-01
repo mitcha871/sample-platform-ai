@@ -1,0 +1,36 @@
+name: Build and Push
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'app/**'
+  workflow_dispatch:
+
+permissions:
+  id-token: write # Required for OIDC
+  contents: read  # Required for checkout
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ap-southeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # Placeholder for actual Docker builds
+      - name: Note on Docker builds
+        run: |
+          echo "Ready to build and push to ${{ steps.login-ecr.outputs.registry }}"
+          echo "This will be finalized in Milestone 8."
