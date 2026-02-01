@@ -32,12 +32,12 @@ This document outlines the milestones and sequence for building the platform. Ea
     *   Deploy Aurora Global Database for UAT/Prod (Sydney/Melbourne replication).
 *   **Status:** COMPLETED.
 
-### 📋 Milestone 5: The Cluster (EKS)
+### ✅ Milestone 5: The Cluster (EKS)
 *   **Goal:** Production-grade Kubernetes orchestration.
 *   **Tasks:** 
     *   Deploy EKS clusters in private subnets.
     *   Configure Node Groups and OIDC providers for K8s service accounts.
-*   **Status:** PENDING.
+*   **Status:** COMPLETED.
 
 ### 📋 Milestone 6: Connectivity (VPN)
 *   **Goal:** Secure internal-only access.
