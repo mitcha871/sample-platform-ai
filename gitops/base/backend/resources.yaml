@@ -1,3 +1,10 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backend
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/backend-rds-role
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -12,6 +19,7 @@ spec:
       labels:
         app: backend
     spec:
+      serviceAccountName: backend
       containers:
       - name: backend
         image: backend:latest
@@ -28,15 +36,11 @@ spec:
         - name: DB_NAME
           value: "postgres"
         - name: DB_USER
-          valueFrom:
-            secretKeyRef:
-              name: db-credentials
-              key: username
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: db-credentials
-              key: password
+          value: "iam_user"
+        - name: DB_IAM_AUTH
+          value: "true"
+        - name: AWS_REGION
+          value: "ap-southeast-2"
         livenessProbe:
           httpGet:
             path: /health
